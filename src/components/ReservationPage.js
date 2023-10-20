@@ -1,32 +1,38 @@
-import React, { useState } from 'react';
-// import { useMutation } from '@apollo/client';
-// import { CREATE_RESERVATION_MUTATION } from './graphql/reservation';
+import React, { useState } from "react";
 
 function ReservationPage() {
-  const [guestName, setGuestName] = useState('');
-  const [guestContactInfo, setGuestContactInfo] = useState('');
-  const [arrivalTime, setArrivalTime] = useState('');
-  const [tableSize, setTableSize] = useState('');
-
-  const [createReservation, { loading, error }] = useMutation(
-    CREATE_RESERVATION_MUTATION
-  );
+  const [guestName, setGuestName] = useState("");
+  const [guestContactInfo, setGuestContactInfo] = useState("");
+  const [arrivalTime, setArrivalTime] = useState("");
+  const [tableSize, setTableSize] = useState("");
 
   const handleReservation = async (e) => {
     e.preventDefault();
 
     try {
-      const { data } = await createReservation({
-        variables: {
-          guestName,
-          guestContactInfo,
-          arrivalTime,
-          tableSize,
-        },
-      });
+      const response = await fetch(
+        "/reserve/reservations",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            guestName,
+            guestContactInfo,
+            arrivalTime,
+            tableSize,
+          }),
+        }
+      );
 
-      // Handle successful reservation
-      console.log(data); // Access the response data here
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      // Reservation successful
+      const data = await response.json();
+      console.log(data);
     } catch (error) {
       // Handle reservation error
       console.log(error);
@@ -36,8 +42,8 @@ function ReservationPage() {
   return (
     <div>
       <h1>Reservation Page</h1>
-      <div style={{ display: 'flex' }}>
-        <div style={{ flex: '1' }}>
+      <div style={{ display: "flex" }}>
+        <div style={{ flex: "1" }}>
           <form onSubmit={handleReservation}>
             <input
               type="text"

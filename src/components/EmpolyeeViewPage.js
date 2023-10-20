@@ -1,6 +1,6 @@
 import React from 'react';
 
-function ViewReservationsPage() {
+function EmployeeViewPage() {
   // Fetch reservations from backend or use dummy data
   const reservations = [
     { id: 1, name: 'Reservation 1' },
@@ -20,4 +20,4 @@ function ViewReservationsPage() {
   );
 }
 
-export default ViewReservationsPage;
+export default EmployeeViewPage;

@@ -1,0 +1,34 @@
+.fantasy-container {
+    background-color: #ffeedd;
+    padding: 20px;
+    text-align: center;
+    font-family: "Comic Sans MS", cursive;
+    border-radius: 10px;
+}
+
+.fantasy-header {
+    font-size: 36px;
+    color: #442244;
+}
+
+.fantasy-form {
+    background-color: #d8bfd8;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.1);
+}
+
+.fantasy-button {
+    background-color: #ff6600;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 18px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.fantasy-button:hover {
+    background-color: #ff9900;
+}

@@ -23,12 +23,12 @@ function RegisterPage() {
     try {
       const handleRegister = async () => {
         try {
-          const response = await fetch("http://localhost:3000/user/register", {
+          const response = await fetch("users/register", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
             },
-            body: JSON.stringify({ email, password, name, UserType }), // Include userType in the JSON data
+            body: JSON.stringify({ name, email, password}), // Include userType in the JSON data
           });
     
           if (response.ok) {
@@ -53,10 +53,15 @@ function RegisterPage() {
   };
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+    <div
+      style={{ display: "flex", flexDirection: "column", alignItems: "center" }}
+    >
       <h1>Register Page</h1>
-      <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', maxWidth: '300px' }}>
-        <div style={{ marginBottom: '10px' }}>
+      <form
+        onSubmit={handleSubmit}
+        style={{ display: "flex", flexDirection: "column", maxWidth: "300px" }}
+      >
+        <div style={{ marginBottom: "10px" }}>
           <label htmlFor="name">Name</label>
           <input
             type="text"
@@ -65,10 +70,10 @@ function RegisterPage() {
             value={name}
             onChange={(e) => setName(e.target.value)}
             required
-            style={{ width: '100%' }}
+            style={{ width: "100%" }}
           />
         </div>
-        <div style={{ marginBottom: '10px' }}>
+        <div style={{ marginBottom: "10px" }}>
           <label htmlFor="email">Email</label>
           <input
             type="email"
@@ -77,10 +82,10 @@ function RegisterPage() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
-            style={{ width: '100%' }}
+            style={{ width: "100%" }}
           />
         </div>
-        <div style={{ marginBottom: '10px' }}>
+        <div style={{ marginBottom: "10px" }}>
           <label htmlFor="password">Password</label>
           <input
             type="password"
@@ -89,10 +94,10 @@ function RegisterPage() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
-            style={{ width: '100%' }}
+            style={{ width: "100%" }}
           />
         </div>
-        <div style={{ marginBottom: '10px' }}>
+        <div style={{ marginBottom: "10px" }}>
           <label htmlFor="confirmPassword">Confirm Password</label>
           <input
             type="password"
@@ -101,11 +106,11 @@ function RegisterPage() {
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
             required
-            style={{ width: '100%' }}
+            style={{ width: "100%" }}
           />
         </div>
-        <button type="submit" style={{ width: '100%' }} disabled={loading}>
-          {loading ? 'Registering...' : 'Register'}
+        <button type="submit" style={{ width: "100%" }} disabled={loading}>
+          {loading ? "Registering..." : "Register"}
         </button>
       </form>
       <p>

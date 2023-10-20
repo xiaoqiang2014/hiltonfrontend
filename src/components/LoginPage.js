@@ -31,14 +31,11 @@ function LoginPage() {
           sessionStorage.setItem("token", body.token)
           history.push("/");
         } else {
-          console.log("Registration failed");
+          console.log("login failed");
         }
       } catch (error) {
         console.log("Network error:", error);
       }
-
-      // Assuming login is successful, redirect to another page
-      history.push('/dashboard');
     } catch (error) {
       console.error('Login failed:', error);
     }
