@@ -3,6 +3,22 @@ import React from 'react';
 //import { GET_RESERVATIONS_QUERY, CANCEL_RESERVATION_MUTATION } from './graphql/reservation';
 
 function ViewReservationsPage() {
+  let loading = false;
+  let error = false
+  let data = {
+    reservations: [
+      {
+        guestName: "guest",
+        guestContactInfo: "10xx20",
+        arrivalTime: "2022-2-22",
+        tableSize: 2,
+        status: "arrived",
+        userEmail: "xx",
+        orderTime:"2022-2-10",
+      },
+    ],
+  };
+
   //const { loading, error, data } = useQuery(GET_RESERVATIONS_QUERY);
   //const [cancelReservation] = useMutation(CANCEL_RESERVATION_MUTATION);
 

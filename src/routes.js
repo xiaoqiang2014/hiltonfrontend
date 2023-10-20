@@ -10,11 +10,10 @@ import ViewReservationsPage from './components/ViewReservationsPage';
 import UserDashboardPage from './components/UserDashboardPage';
 
 const isAuthenticated = () => {
-  const token = localStorage.getItem('token');
+  const token = sessionStorage.getItem("token");
   if (token) {
     try {
       const decodedToken = jwtDecode(token);
-      const userRole = decodedToken.user_role_info;
       const currentTime = Date.now() / 1000;
       if (decodedToken.exp < currentTime) {
         // Token has expired
@@ -30,12 +29,12 @@ const isAuthenticated = () => {
 };
 
 const isAdmin = () => {
-  const token = localStorage.getItem('token');
+  const token = sessionStorage.getItem('token');
   if (token) {
     try {
       const decodedToken = jwtDecode(token);
-      const userRole = decodedToken.user_role_info;
-      return userRole === 'admin';
+      const userRole = decodedToken.role;
+      return userRole === 'employee';
     } catch (error) {
       // Error decoding token
       return false;

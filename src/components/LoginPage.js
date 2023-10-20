@@ -18,8 +18,8 @@ function LoginPage() {
       //   variables: { email, password },
       // });
       try {
-        const response = await fetch("http://localhost:3000/user/login", {
-          method: "GET",
+        const response = await fetch("/users/login", {
+          method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
@@ -27,7 +27,9 @@ function LoginPage() {
         });
   
         if (response.ok) {
-          history.push("/login");
+          let body = await response.json();
+          sessionStorage.setItem("token", body.token)
+          history.push("/");
         } else {
           console.log("Registration failed");
         }
