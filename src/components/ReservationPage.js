@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { useMutation } from '@apollo/client';
-import { CREATE_RESERVATION_MUTATION } from './graphql/reservation';
+// import { useMutation } from '@apollo/client';
+// import { CREATE_RESERVATION_MUTATION } from './graphql/reservation';
 
 function ReservationPage() {
   const [guestName, setGuestName] = useState('');

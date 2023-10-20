@@ -1,25 +1,59 @@
 import React from 'react';
-import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
+import { Route, Redirect ,Switch,BrowserRouter} from 'react-router-dom';
+import jwtDecode from 'jwt-decode';
 
 import LoginPage from './components/LoginPage';
 import RegisterPage from './components/RegisterPage';
 import DashboardPage from './components/DashboardPage';
 import ReservationPage from './components/ReservationPage';
 import ViewReservationsPage from './components/ViewReservationsPage';
+import UserDashboardPage from './components/UserDashboardPage';
 
 const isAuthenticated = () => {
-  // For testing purposes, always return true to simulate an authenticated user
-  return true;
+  const token = localStorage.getItem('token');
+  if (token) {
+    try {
+      const decodedToken = jwtDecode(token);
+      const userRole = decodedToken.user_role_info;
+      const currentTime = Date.now() / 1000;
+      if (decodedToken.exp < currentTime) {
+        // Token has expired
+        return false;
+      }
+      return true;
+    } catch (error) {
+      // Error decoding token
+      return false;
+    }
+  }
+  return false;
 };
 
-const ProtectedRoute = ({ component: Component, ...rest }) => (
+const isAdmin = () => {
+  const token = localStorage.getItem('token');
+  if (token) {
+    try {
+      const decodedToken = jwtDecode(token);
+      const userRole = decodedToken.user_role_info;
+      return userRole === 'admin';
+    } catch (error) {
+      // Error decoding token
+      return false;
+    }
+  }
+  return false;
+};
+
+const ProtectedRoute = ({ component: Component, role, ...rest }) => (
   <Route
     {...rest}
     render={(props) =>
       isAuthenticated() ? (
-        <DashboardPage>
+        isAdmin() ? (
           <Component {...props} />
-        </DashboardPage>
+        ) : (
+          <Redirect to="/userdashboard" />
+        )
       ) : (
         <Redirect to="/login" />
       )
@@ -32,7 +66,11 @@ const PublicRoute = ({ component: Component, ...rest }) => (
     {...rest}
     render={(props) =>
       isAuthenticated() ? (
-        <Redirect to="/dashboard" />
+        isAdmin() ? (
+          <Redirect to="/dashboard" />
+        ) : (
+          <Redirect to="/userdashboard" />
+        )
       ) : (
         <Component {...props} />
       )
@@ -40,19 +78,19 @@ const PublicRoute = ({ component: Component, ...rest }) => (
   />
 );
 
-const Routes = () => {
-  return (
-    <Router>
-      <Switch>
+const Routes = () => (
+  <BrowserRouter>
+  <Switch>
         <PublicRoute exact path="/login" component={LoginPage} />
         <PublicRoute exact path="/register" component={RegisterPage} />
-        <ProtectedRoute exact path="/dashboard" component={DashboardPage} />
-        <ProtectedRoute exact path="/dashboard/make-order" component={ReservationPage} />
-        <ProtectedRoute exact path="/dashboard/view-reservations" component={ViewReservationsPage} />
+        <ProtectedRoute exact path="/dashboard" component={DashboardPage} role="admin" />
+        <ProtectedRoute exact path="/userdashboard" component={UserDashboardPage} role="user" />
+        <ProtectedRoute exact path="/dashboard/make-order" component={ReservationPage} role="user" />
+        <ProtectedRoute exact path="/dashboard/view-reservations" component={ViewReservationsPage} role="admin" />
         <Redirect from="/" to="/login" />
-      </Switch>
-    </Router>
-  );
-};
+  </Switch>
+  </BrowserRouter>
+
+);
 
 export default Routes;

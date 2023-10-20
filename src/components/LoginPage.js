@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom';
-import { useMutation } from '@apollo/client';
-import LOGIN_MUTATION from './graphql/loginmutations'; // Import the login mutation
+import { useHistory, Link } from 'react-router-dom';
+//import { useMutation } from '@apollo/client';
+//import LOGIN_MUTATION from './graphql/loginmutations'; // Import the login mutation
 import logSvg from '../logo.svg';
 
 function LoginPage() {
@@ -9,14 +9,31 @@ function LoginPage() {
   const [password, setPassword] = useState('');
   const history = useHistory();
 
-  const [loginMutation] = useMutation(LOGIN_MUTATION);
+  //const [loginMutation] = useMutation(LOGIN_MUTATION);
 
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const { data } = await loginMutation({
-        variables: { email, password },
-      });
+      // const { data } = await loginMutation({
+      //   variables: { email, password },
+      // });
+      try {
+        const response = await fetch("http://localhost:3000/user/login", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email, password }), // Include userType in the JSON data
+        });
+  
+        if (response.ok) {
+          history.push("/login");
+        } else {
+          console.log("Registration failed");
+        }
+      } catch (error) {
+        console.log("Network error:", error);
+      }
 
       // Assuming login is successful, redirect to another page
       history.push('/dashboard');

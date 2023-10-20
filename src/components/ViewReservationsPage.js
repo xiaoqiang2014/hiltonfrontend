@@ -1,11 +1,10 @@
 import React from 'react';
-import { useQuery, useMutation } from '@apollo/client';
-import { GET_RESERVATIONS_QUERY, CANCEL_RESERVATION_MUTATION } from './graphql/reservation';
+//import { useQuery, useMutation } from '@apollo/client';
+//import { GET_RESERVATIONS_QUERY, CANCEL_RESERVATION_MUTATION } from './graphql/reservation';
 
 function ViewReservationsPage() {
-  const { loading, error, data } = useQuery(GET_RESERVATIONS_QUERY);
-
-  const [cancelReservation] = useMutation(CANCEL_RESERVATION_MUTATION);
+  //const { loading, error, data } = useQuery(GET_RESERVATIONS_QUERY);
+  //const [cancelReservation] = useMutation(CANCEL_RESERVATION_MUTATION);
 
   const handleCancelReservation = async (reservationId) => {
     try {

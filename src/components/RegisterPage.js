@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
-import { useMutation } from '@apollo/client';
-import REGISTER_MUTATION from './graphql/registermutations'; // Import the register mutation
+//import { useMutation } from '@apollo/client';
+//import REGISTER_MUTATION from './graphql/registermutations'; // Import the register mutation
 
 function RegisterPage() {
   const [name, setName] = useState('');
@@ -10,8 +10,8 @@ function RegisterPage() {
   const [confirmPassword, setConfirmPassword] = useState('');
   const history = useHistory();
 
-  const [register, { loading, error }] = useMutation(REGISTER_MUTATION);
-
+  //const [register, { loading, error }] = useMutation(REGISTER_MUTATION);
+  const loading = false;
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -21,9 +21,25 @@ function RegisterPage() {
     }
 
     try {
-      const { data } = await register({
-        variables: { name, email, password },
-      });
+      const handleRegister = async () => {
+        try {
+          const response = await fetch("http://localhost:3000/user/register", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ email, password, name, UserType }), // Include userType in the JSON data
+          });
+    
+          if (response.ok) {
+            history.push("/login");
+          } else {
+            console.log("Registration failed");
+          }
+        } catch (error) {
+          console.log("Network error:", error);
+        }
+      };
 
       // Handle successful registration
       console.log(data); // You can access the response data here
@@ -91,7 +107,6 @@ function RegisterPage() {
         <button type="submit" style={{ width: '100%' }} disabled={loading}>
           {loading ? 'Registering...' : 'Register'}
         </button>
-        {error && <p>Error: {error.message}</p>}
       </form>
       <p>
         Already have an account? <Link to="/login">Login</Link>
